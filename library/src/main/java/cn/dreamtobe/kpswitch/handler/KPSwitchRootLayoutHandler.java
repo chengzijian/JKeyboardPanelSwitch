@@ -33,7 +33,7 @@ import cn.dreamtobe.kpswitch.util.ViewUtil;
  *
  * @see cn.dreamtobe.kpswitch.widget.KPSwitchRootFrameLayout
  * @see cn.dreamtobe.kpswitch.widget.KPSwitchRootLinearLayout
- * @see cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayout
+ * @see cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayoutFixed
  */
 public class KPSwitchRootLayoutHandler {
 
@@ -44,6 +44,11 @@ public class KPSwitchRootLayoutHandler {
 
     private final int mStatusBarHeight;
     private final boolean mIsTranslucentStatus;
+    private boolean fixedScreen;
+
+    public void setFixedScreen(boolean fixedScreen) {
+        this.fixedScreen = fixedScreen;
+    }
 
     public enum StatusChange {
         HIDE, KEYBOARD, PANEL
@@ -106,7 +111,7 @@ public class KPSwitchRootLayoutHandler {
 
         if (offset > 0) {
             //键盘弹起 (offset > 0，高度变小)
-            panel.handleHide(View.INVISIBLE);
+            panel.handleHide(fixedScreen ? View.INVISIBLE : View.GONE);
         } else if (panel.isKeyboardShowing() && panel.isVisible()) {
             // 1. 总得来说，在监听到键盘已经显示的前提下，键盘收回才是有效有意义的。
             // 2. 修复在Android L下使用V7.Theme.AppCompat主题，进入Activity，默认弹起面板bug，

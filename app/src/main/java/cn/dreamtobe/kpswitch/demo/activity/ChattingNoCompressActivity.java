@@ -18,7 +18,7 @@ import cn.dreamtobe.kpswitch.handler.KPSwitchRootLayoutHandler;
 import cn.dreamtobe.kpswitch.util.KPSwitchConflictUtil;
 import cn.dreamtobe.kpswitch.util.KeyboardUtil;
 import cn.dreamtobe.kpswitch.widget.KPSwitchPanelLinearLayout;
-import cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayout;
+import cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayoutFixed;
 
 /**
  * Created by Jacksgong on 15/7/1.
@@ -34,7 +34,7 @@ import cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayout;
 public class ChattingNoCompressActivity extends FragmentActivity {
 
     private static final String TAG = "ResolvedActivity";
-    private KPSwitchRootRelativeLayout mKPSwitchRootRelativeLayout;
+    private KPSwitchRootRelativeLayoutFixed mKPSwitchRootRelativeLayout;
     //    private RecyclerView mContentRyv;
     private EditText mSendEdt;
     private KPSwitchPanelLinearLayout mPanelRoot;
@@ -47,7 +47,7 @@ public class ChattingNoCompressActivity extends FragmentActivity {
         mPanelRoot = (KPSwitchPanelLinearLayout) findViewById(R.id.panel_root);
         mSendImgTv = (TextView) findViewById(R.id.send_img_tv);
         mPlusIv = (ImageView) findViewById(R.id.plus_iv);
-        mKPSwitchRootRelativeLayout = (KPSwitchRootRelativeLayout) findViewById(R.id.rootView);
+        mKPSwitchRootRelativeLayout = (KPSwitchRootRelativeLayoutFixed) findViewById(R.id.rootView);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

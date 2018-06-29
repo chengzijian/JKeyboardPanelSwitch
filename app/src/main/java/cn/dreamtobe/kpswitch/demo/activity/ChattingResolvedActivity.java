@@ -129,7 +129,7 @@ public class ChattingResolvedActivity extends AppCompatActivity {
                 new KeyboardUtil.OnKeyboardShowingListener() {
                     @Override
                     public void onKeyboardShowChange(KPSwitchRootLayoutHandler.StatusChange state) {
-
+                        Log.d(TAG, String.format("Keyboard is change: " + state));
                     }
                 });
 

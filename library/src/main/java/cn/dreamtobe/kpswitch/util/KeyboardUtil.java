@@ -431,21 +431,24 @@ public class KeyboardUtil {
 //                }
                 lastKeyboardShowing = isKeyboardShowing;
             }
-            KPSwitchRootLayoutHandler.StatusChange isKeyboardStatus;
-            if (isKeyboardShowing && !((IPanelConflictLayout) panelHeightTarget).isVisible()) {
-                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.KEYBOARD;
-            } else if (!isKeyboardShowing && ((IPanelConflictLayout) panelHeightTarget).isVisible()) {
-                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.PANEL;
-            } else if (!(isKeyboardShowing || ((IPanelConflictLayout) panelHeightTarget).isVisible())) {
-                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
-                ((IPanelConflictLayout) panelHeightTarget).handleHide(View.GONE);
-            } else {
-                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
-            }
-            if (lastKeyboardStatus != isKeyboardStatus) {
-                if(keyboardShowingListener != null)
-                    keyboardShowingListener.onKeyboardShowChange(isKeyboardStatus);
-                lastKeyboardStatus = isKeyboardStatus;
+
+            if(panelHeightTarget instanceof IPanelConflictLayout){
+                KPSwitchRootLayoutHandler.StatusChange isKeyboardStatus;
+                if (isKeyboardShowing && !((IPanelConflictLayout) panelHeightTarget).isVisible()) {
+                    isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.KEYBOARD;
+                } else if (!isKeyboardShowing && ((IPanelConflictLayout) panelHeightTarget).isVisible()) {
+                    isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.PANEL;
+                } else if (!(isKeyboardShowing || ((IPanelConflictLayout) panelHeightTarget).isVisible())) {
+                    isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
+                    ((IPanelConflictLayout) panelHeightTarget).handleHide(View.GONE);
+                } else {
+                    isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
+                }
+                if (lastKeyboardStatus != isKeyboardStatus) {
+                    if(keyboardShowingListener != null)
+                        keyboardShowingListener.onKeyboardShowChange(isKeyboardStatus);
+                    lastKeyboardStatus = isKeyboardStatus;
+                }
             }
         }
 
