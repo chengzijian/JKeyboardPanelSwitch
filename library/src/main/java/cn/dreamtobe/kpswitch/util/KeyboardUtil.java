@@ -30,8 +30,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 
+import cn.dreamtobe.kpswitch.IPanelConflictLayout;
 import cn.dreamtobe.kpswitch.IPanelHeightTarget;
 import cn.dreamtobe.kpswitch.R;
+import cn.dreamtobe.kpswitch.handler.KPSwitchRootLayoutHandler;
 
 /**
  * Created by Jacksgong on 15/7/6.
@@ -229,6 +231,7 @@ public class KeyboardUtil {
         private final boolean isFitSystemWindows;
         private final int statusBarHeight;
         private boolean lastKeyboardShowing;
+        private KPSwitchRootLayoutHandler.StatusChange lastKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
         private final OnKeyboardShowingListener keyboardShowingListener;
         private final int screenHeight;
 
@@ -423,13 +426,27 @@ public class KeyboardUtil {
                                 + "keyboard status change: %B",
                         displayHeight, actionBarOverlayLayoutHeight, isKeyboardShowing));
                 this.panelHeightTarget.onKeyboardShowing(isKeyboardShowing);
-                if (keyboardShowingListener != null) {
-                    keyboardShowingListener.onKeyboardShowing(isKeyboardShowing);
-                }
+//                if (keyboardShowingListener != null) {
+//                    keyboardShowingListener.onKeyboardShowing(isKeyboardShowing);
+//                }
+                lastKeyboardShowing = isKeyboardShowing;
             }
-
-            lastKeyboardShowing = isKeyboardShowing;
-
+            KPSwitchRootLayoutHandler.StatusChange isKeyboardStatus;
+            if (isKeyboardShowing && !((IPanelConflictLayout) panelHeightTarget).isVisible()) {
+                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.KEYBOARD;
+            } else if (!isKeyboardShowing && ((IPanelConflictLayout) panelHeightTarget).isVisible()) {
+                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.PANEL;
+            } else if (!(isKeyboardShowing || ((IPanelConflictLayout) panelHeightTarget).isVisible())) {
+                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
+                ((IPanelConflictLayout) panelHeightTarget).handleHide(View.GONE);
+            } else {
+                isKeyboardStatus = KPSwitchRootLayoutHandler.StatusChange.HIDE;
+            }
+            if (lastKeyboardStatus != isKeyboardStatus) {
+                if(keyboardShowingListener != null)
+                    keyboardShowingListener.onKeyboardShowChange(isKeyboardStatus);
+                lastKeyboardStatus = isKeyboardStatus;
+            }
         }
 
         private Context getContext() {
@@ -445,19 +462,7 @@ public class KeyboardUtil {
      */
     public interface OnKeyboardShowingListener {
 
-        /**
-         * Keyboard showing state callback method.
-         * <p>
-         * This method is invoked in
-         * {@link ViewTreeObserver.OnGlobalLayoutListener#onGlobalLayout()} which is one of the
-         * ViewTree lifecycle callback methods. So deprecating those time-consuming operation(I/O,
-         * complex calculation, alloc objects, etc.) here from blocking main ui thread is
-         * recommended.
-         * </p>
-         *
-         * @param isShowing Indicate whether keyboard is showing or not.
-         */
-        void onKeyboardShowing(boolean isShowing);
+        void onKeyboardShowChange(KPSwitchRootLayoutHandler.StatusChange state);
 
     }
 

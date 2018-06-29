@@ -36,6 +36,7 @@ import cn.dreamtobe.kpswitch.util.ViewUtil;
  * @see cn.dreamtobe.kpswitch.widget.KPSwitchRootRelativeLayout
  */
 public class KPSwitchRootLayoutHandler {
+
     private static final String TAG = "KPSRootLayoutHandler";
 
     private int mOldHeight = -1;
@@ -43,6 +44,10 @@ public class KPSwitchRootLayoutHandler {
 
     private final int mStatusBarHeight;
     private final boolean mIsTranslucentStatus;
+
+    public enum StatusChange {
+        HIDE, KEYBOARD, PANEL
+    }
 
     public KPSwitchRootLayoutHandler(final View rootView) {
         this.mTargetRootView = rootView;
@@ -54,7 +59,6 @@ public class KPSwitchRootLayoutHandler {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void handleBeforeMeasure(final int width, int height) {
         // 由当前布局被键盘挤压，获知，由于键盘的活动，导致布局将要发生变化。
-
         if (mIsTranslucentStatus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
                 && mTargetRootView.getFitsSystemWindows()) {
             // In this case, the height is always the same one, so, we have to calculate below.
@@ -74,25 +78,17 @@ public class KPSwitchRootLayoutHandler {
         }
 
         final int offset = mOldHeight - height;
-
         if (offset == 0) {
             Log.d(TAG, "" + offset + " == 0 break;");
             return;
         }
 
+        mOldHeight = height;
         if (Math.abs(offset) == mStatusBarHeight) {
             Log.w(TAG, String.format("offset just equal statusBar height %d", offset));
             // 极有可能是 相对本页面的二级页面的主题是全屏&是透明，但是本页面不是全屏，因此会有status bar的布局变化差异，进行调过
             // 极有可能是 该布局采用了透明的背景(windowIsTranslucent=true)，而背后的布局`full screen`为false，
             // 因此有可能第一次绘制时没有attach上status bar，而第二次status bar attach上去，导致了这个变化。
-            return;
-        }
-
-        mOldHeight = height;
-        final IPanelConflictLayout panel = getPanelLayout(mTargetRootView);
-
-        if (panel == null) {
-            Log.w(TAG, "can't find the valid panel conflict layout, give up!");
             return;
         }
 
@@ -102,9 +98,15 @@ public class KPSwitchRootLayoutHandler {
             return;
         }
 
+        final IPanelConflictLayout panel = getPanelLayout(mTargetRootView);
+        if (panel == null) {
+            Log.w(TAG, "can't find the valid panel conflict layout, give up!");
+            return;
+        }
+
         if (offset > 0) {
             //键盘弹起 (offset > 0，高度变小)
-            panel.handleHide();
+            panel.handleHide(View.INVISIBLE);
         } else if (panel.isKeyboardShowing() && panel.isVisible()) {
             // 1. 总得来说，在监听到键盘已经显示的前提下，键盘收回才是有效有意义的。
             // 2. 修复在Android L下使用V7.Theme.AppCompat主题，进入Activity，默认弹起面板bug，
@@ -142,4 +144,5 @@ public class KPSwitchRootLayoutHandler {
 
         return null;
     }
+
 }

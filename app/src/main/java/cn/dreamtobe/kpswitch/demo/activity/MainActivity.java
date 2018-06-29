@@ -92,15 +92,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClickExtraThemeResolved(final View view) {
         final boolean fullScreenTheme = mFullScreenRb.isChecked();
-
         Intent i = new Intent(this, ChattingResolvedHandleByPlaceholderActivity.class);
         i.putExtra(KEY_FULL_SCREEN_THEME, fullScreenTheme);
         startActivity(i);
     }
 
-
     public void onClickUnResolved(final View view) {
         startActivity(new Intent(this, ChattingUnresolvedActivity.class));
+    }
+
+    public void onClickNoCompress(final View view) {
+        startActivity(new Intent(this, ChattingNoCompressActivity.class));
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -109,8 +110,8 @@ public class KPSwitchPanelLinearLayout extends LinearLayout implements IPanelHei
 
 
     @Override
-    public void handleHide() {
-        panelLayoutHandler.handleHide();
+    public void handleHide(int visible) {
+        panelLayoutHandler.handleHide(visible);
     }
 
     @Override
@@ -118,4 +119,8 @@ public class KPSwitchPanelLinearLayout extends LinearLayout implements IPanelHei
         panelLayoutHandler.setIgnoreRecommendHeight(isIgnoreRecommendHeight);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return true;
+    }
 }

@@ -101,8 +101,8 @@ public class KPSwitchPanelFrameLayout extends FrameLayout implements IPanelHeigh
     }
 
     @Override
-    public void handleHide() {
-        panelLayoutHandler.handleHide();
+    public void handleHide(int visible) {
+        panelLayoutHandler.handleHide(visible);
     }
 
     @Override

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.dreamtobe.kpswitch.demo.R;
+import cn.dreamtobe.kpswitch.handler.KPSwitchRootLayoutHandler;
 import cn.dreamtobe.kpswitch.util.KPSwitchConflictUtil;
 import cn.dreamtobe.kpswitch.util.KeyboardUtil;
 import cn.dreamtobe.kpswitch.widget.KPSwitchPanelLinearLayout;
@@ -127,9 +128,8 @@ public class ChattingResolvedActivity extends AppCompatActivity {
                 // keyboard's show/hide change.
                 new KeyboardUtil.OnKeyboardShowingListener() {
                     @Override
-                    public void onKeyboardShowing(boolean isShowing) {
-                        Log.d(TAG, String.format("Keyboard is %s", isShowing
-                                ? "showing" : "hiding"));
+                    public void onKeyboardShowChange(KPSwitchRootLayoutHandler.StatusChange state) {
+
                     }
                 });
 
@@ -191,6 +191,7 @@ public class ChattingResolvedActivity extends AppCompatActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_UP
                 && event.getKeyCode() == KeyEvent.KEYCODE_BACK
+                && mPanelRoot.getVisibility() == View.VISIBLE
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             KPSwitchConflictUtil.hidePanelAndKeyboard(mPanelRoot);
             return true;

@@ -41,7 +41,7 @@ public interface IPanelConflictLayout {
      *
      * @see cn.dreamtobe.kpswitch.util.KPSwitchConflictUtil#showKeyboard
      */
-    void handleHide();
+    void handleHide(int visible);
 
     /**
      * @param isIgnoreRecommendHeight Ignore guaranteeing the panel height equal to the keyboard

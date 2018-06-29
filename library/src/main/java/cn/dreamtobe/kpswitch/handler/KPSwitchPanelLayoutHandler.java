@@ -58,7 +58,7 @@ public class KPSwitchPanelLayoutHandler implements IPanelConflictLayout {
      * In this case, the {@code mIsHide} will mark the right status.
      * Handle by {@link #filterSetVisibility(int)} & {@link #processOnMeasure(int, int)}
      */
-    private boolean mIsHide = false;
+    private boolean mIsHide = true;
 
     /**
      * Whether ignore the recommend panel height, what would be equal to the height of keyboard in
@@ -100,6 +100,8 @@ public class KPSwitchPanelLayoutHandler implements IPanelConflictLayout {
     public boolean filterSetVisibility(final int visibility) {
         if (visibility == View.VISIBLE) {
             this.mIsHide = false;
+        } else {
+            this.mIsHide = true;
         }
 
         if (visibility == panelLayout.getVisibility()) {
@@ -134,12 +136,10 @@ public class KPSwitchPanelLayoutHandler implements IPanelConflictLayout {
      */
     public int[] processOnMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mIsHide) {
-            panelLayout.setVisibility(View.GONE);
-            /*
-             * The current frame will be visible nil.
-             */
-            widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
-            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
+            panelLayout.setVisibility(View.INVISIBLE);
+//            panelLayout.setVisibility(View.GONE);
+//            widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
+//            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.EXACTLY);
         }
 
         final int[] processedMeasureWHSpec = new int[2];
@@ -177,8 +177,9 @@ public class KPSwitchPanelLayoutHandler implements IPanelConflictLayout {
      * @see #processOnMeasure(int, int)
      */
     @Override
-    public void handleHide() {
+    public void handleHide(int visible) {
         this.mIsHide = true;
+        panelLayout.setVisibility(visible);
     }
 
     /**

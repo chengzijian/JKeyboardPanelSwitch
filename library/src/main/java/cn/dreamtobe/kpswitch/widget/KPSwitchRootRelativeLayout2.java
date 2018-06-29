@@ -16,16 +16,12 @@
 package cn.dreamtobe.kpswitch.widget;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import cn.dreamtobe.kpswitch.handler.KPSwitchRootLayoutHandler;
-import cn.dreamtobe.kpswitch.util.StatusBarHeightUtil;
-import cn.dreamtobe.kpswitch.util.ViewUtil;
 
 /**
  * Created by Jacksgong on 3/30/16.
@@ -41,53 +37,40 @@ import cn.dreamtobe.kpswitch.util.ViewUtil;
  * @see KPSwitchRootFrameLayout
  * @see KPSwitchPanelLinearLayout
  */
-public class KPSwitchRootRelativeLayout extends RelativeLayout {
+public class KPSwitchRootRelativeLayout2 extends RelativeLayout {
 
     private KPSwitchRootLayoutHandler conflictHandler;
-    private int mRealWidth;
-    private int mRealHeight;
 
-    public KPSwitchRootRelativeLayout(Context context) {
+    public KPSwitchRootRelativeLayout2(Context context) {
         super(context);
         init();
     }
 
-    public KPSwitchRootRelativeLayout(Context context, AttributeSet attrs) {
+    public KPSwitchRootRelativeLayout2(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public KPSwitchRootRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public KPSwitchRootRelativeLayout2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public KPSwitchRootRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr,
-                                      int defStyleRes) {
+    public KPSwitchRootRelativeLayout2(Context context, AttributeSet attrs, int defStyleAttr,
+                                       int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
     private void init() {
         conflictHandler = new KPSwitchRootLayoutHandler(this);
-        mRealWidth = getContext().getResources().getDisplayMetrics().widthPixels;
-        mRealHeight = getContext().getResources().getDisplayMetrics().heightPixels - StatusBarHeightUtil.getStatusBarHeight(getContext());
-        if (ViewUtil.isTranslucentStatus((Activity) getContext())
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN && getFitsSystemWindows()) {
-            // In this case, the height is always the same one, so, we have to calculate below.
-            final Rect rect = new Rect();
-            getWindowVisibleDisplayFrame(rect);
-            mRealHeight = rect.bottom - rect.top;
-        }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         conflictHandler.handleBeforeMeasure(MeasureSpec.getSize(widthMeasureSpec),
                 MeasureSpec.getSize(heightMeasureSpec));
-        super.onMeasure(MeasureSpec.makeMeasureSpec(mRealWidth, MeasureSpec.EXACTLY)
-                , MeasureSpec.makeMeasureSpec(mRealHeight, MeasureSpec.EXACTLY));
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
-
 }

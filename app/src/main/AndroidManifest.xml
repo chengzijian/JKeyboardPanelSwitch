@@ -37,6 +37,10 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
+            android:name=".activity.ChattingNoCompressActivity"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
             android:name=".activity.TranslucentActivity"
             android:theme="@style/TranslucentFullScreenTheme"/>
 

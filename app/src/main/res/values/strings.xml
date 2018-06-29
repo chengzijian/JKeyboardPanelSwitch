@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">JKeyBordPanelSwitch</string>
     <string name="app_github">GITHUB</string>
-    <string name="app_github_url">https://github.com/Jacksgong/JKeyboardPanelSwitch</string>
+    <string name="app_github_url">https://github.com/chengzijian/JKeyboardPanelSwitch</string>
 
     <string name="press_say">按住说话</string>
     <string name="site">位置</string>
@@ -15,10 +15,10 @@
     <string name="translucent_fullscreen_tips">透明全屏布局</string>
     <string name="app_compat_activity">AppCompatActivity</string>
     <string name="activity_or_fragment_activity">Activity/FragmentActivity</string>
-    <string name="translucent_status_with_fitsystemwindow_true">Translucent Status with fitSystemWindows=true</string>
-    <string name="translucent_status_with_fitssystemwindows_false">Translucent Status with fitsSystemWindows=false</string>
-    <string name="full_screen_theme">Full Screen Theme</string>
-    <string name="ignore_recommend_panel_height_cb_text">Ignore guaranteeing the panel height equal to the keyboard height</string>
+    <string name="translucent_status_with_fitsystemwindow_true">半透明的状态 并且 fitSystemWindows=true</string>
+    <string name="translucent_status_with_fitssystemwindows_false">半透明的状态 并且 fitsSystemWindows=false</string>
+    <string name="full_screen_theme">全屏的主题</string>
+    <string name="ignore_recommend_panel_height_cb_text">不保证面板的高度等于键盘的高度</string>
     <string name="mark_panel1_to_img">照片-面板1</string>
-    <string name="several_sub_panels_cb_text">There are several sub-panels in one page</string>
+    <string name="several_sub_panels_cb_text">支持一页有多个面板</string>
 </resources>

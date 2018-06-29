@@ -101,8 +101,8 @@ public class KPSwitchPanelRelativeLayout extends RelativeLayout implements IPane
     }
 
     @Override
-    public void handleHide() {
-        panelLayoutHandler.handleHide();
+    public void handleHide(int visible) {
+        panelLayoutHandler.handleHide(visible);
     }
 
     @Override
